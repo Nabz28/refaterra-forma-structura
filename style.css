@@ -227,27 +227,6 @@ i{font-style:italic;font-weight:400;font-family:inherit}
   margin:0 auto;
   color:#fff;
 }
-.hero-eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:6px 14px 6px 12px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);
-  border-radius:var(--r-pill);
-  font-family:'Geist Mono',ui-monospace,monospace;
-  font-size:11px;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,0.88);
-  margin-bottom:28px;
-}
-.he-dot{
-  width:6px;height:6px;
-  border-radius:50%;
-  background:#B89968;
-  box-shadow:0 0 10px #B89968;
-}
 .hero-h{
   font-family:'Clash Display','Cabinet Grotesk',sans-serif;
   font-weight:600;
@@ -1342,6 +1321,478 @@ i{font-style:italic;font-weight:400;font-family:inherit}
 .foot-set{margin-left:auto}
 
 /* ================================================================
+   LAYANAN — 3 service pillars with 3D tilt
+   ================================================================ */
+.services{
+  background:var(--bone);
+  padding:clamp(120px, 16vh, 180px) var(--gutter);
+}
+.services-head{
+  max-width:var(--container);
+  margin:0 auto 72px;
+  text-align:center;
+}
+.services-head .kicker{
+  display:inline-block;
+  margin-bottom:24px;
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--maroon);
+  padding:6px 14px;
+  border:1px solid var(--maroon);
+  border-radius:var(--r-pill);
+}
+.services-head .section-sub{margin:0 auto}
+
+.services-grid{
+  max-width:var(--container);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:24px;
+  perspective:1200px;
+}
+.service-card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  padding:44px 36px 36px;
+  background:var(--paper);
+  border:1px solid var(--hairline);
+  border-radius:var(--r-card);
+  text-decoration:none;
+  color:var(--ink);
+  transition:
+    border-color .4s var(--ease-out-quick),
+    box-shadow .4s var(--ease-out-quick),
+    transform .4s var(--ease-out-quick);
+  will-change:transform;
+  overflow:hidden;
+}
+.service-card::before{
+  /* Subtle maroon halo on hover */
+  content:'';
+  position:absolute;
+  top:-30%;right:-20%;
+  width:60%;height:160%;
+  background:radial-gradient(circle, rgba(91,15,26,0.10) 0%, transparent 60%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .5s ease;
+}
+.service-card:hover{
+  border-color:rgba(91,15,26,0.30);
+  box-shadow:
+    0 18px 48px rgba(15,11,12,0.06),
+    0 4px 12px rgba(91,15,26,0.04);
+}
+.service-card:hover::before{opacity:1}
+.sc-icon{
+  width:56px;height:56px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bone-warm);
+  color:var(--maroon);
+  border-radius:14px;
+  margin-bottom:32px;
+  transition:transform .5s var(--ease-out-quick), background-color .4s ease;
+}
+.service-card:hover .sc-icon{
+  transform:translateY(-4px);
+  background:var(--maroon);
+  color:var(--bone);
+}
+.sc-icon svg{width:28px;height:28px}
+.sc-h{
+  font-family:'Clash Display','Cabinet Grotesk',sans-serif;
+  font-weight:600;
+  font-size:28px;
+  line-height:1.1;
+  letter-spacing:-.025em;
+  color:var(--ink);
+  margin-bottom:14px;
+}
+.sc-p{
+  font-size:15px;
+  line-height:1.55;
+  color:var(--ink-soft);
+  margin-bottom:28px;
+  flex:1;
+  max-width:38ch;
+}
+.sc-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--maroon);
+  transition:gap .35s var(--ease-out-quick);
+}
+.service-card:hover .sc-link{gap:14px}
+
+/* ================================================================
+   PARTNERS — single marquee (taste-skill: max one per page)
+   ================================================================ */
+.partners{
+  background:var(--ink);
+  color:var(--bone);
+  padding:48px 0;
+  overflow:hidden;
+  position:relative;
+}
+.partners::before,
+.partners::after{
+  content:'';
+  position:absolute;
+  top:0;bottom:0;
+  width:160px;
+  z-index:2;
+  pointer-events:none;
+}
+.partners::before{
+  left:0;
+  background:linear-gradient(90deg, var(--ink) 0%, transparent 100%);
+}
+.partners::after{
+  right:0;
+  background:linear-gradient(-90deg, var(--ink) 0%, transparent 100%);
+}
+.partners-label{
+  max-width:var(--container);
+  margin:0 auto 24px;
+  padding:0 var(--gutter);
+  text-align:center;
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:rgba(245,241,234,0.55);
+}
+.marquee{
+  width:100%;
+  overflow:hidden;
+}
+.marquee-track{
+  display:flex;
+  align-items:center;
+  gap:36px;
+  white-space:nowrap;
+  animation:partnersMarquee 34s linear infinite;
+  will-change:transform;
+}
+.partners:hover .marquee-track{animation-play-state:paused}
+@keyframes partnersMarquee{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+.mq-item{
+  font-family:'Clash Display','Cabinet Grotesk',sans-serif;
+  font-weight:500;
+  font-size:22px;
+  letter-spacing:-.015em;
+  color:rgba(245,241,234,0.78);
+}
+.mq-dot{
+  color:var(--maroon);
+  opacity:.6;
+  font-size:22px;
+  font-weight:700;
+}
+
+/* ================================================================
+   GALERI PROYEK — bento grid with image clip-reveal
+   ================================================================ */
+.gallery{
+  background:var(--bone);
+  padding:clamp(120px, 16vh, 180px) var(--gutter);
+}
+.gallery-head{
+  max-width:var(--container);
+  margin:0 auto 64px;
+  text-align:center;
+}
+.gallery-head .kicker{
+  display:inline-block;
+  margin-bottom:24px;
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--maroon);
+  padding:6px 14px;
+  border:1px solid var(--maroon);
+  border-radius:var(--r-pill);
+}
+.gallery-head .section-sub{margin:0 auto}
+
+.gallery-grid{
+  max-width:var(--container);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  grid-auto-flow:dense;
+  gap:20px;
+}
+.gal-item{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  background:var(--paper);
+  border-radius:var(--r-card);
+  overflow:hidden;
+}
+.gal-wide{grid-column:span 2}
+.gal-frame{
+  position:relative;
+  overflow:hidden;
+  aspect-ratio:4/3;
+  background:var(--bone-warm);
+}
+.gal-wide .gal-frame{aspect-ratio:16/9}
+.gal-frame img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform 1.4s var(--ease-out-quick);
+  will-change:transform;
+}
+.gal-item:hover .gal-frame img{transform:scale(1.06)}
+.gal-item figcaption{
+  padding:20px 24px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  background:var(--paper);
+  border-top:1px solid var(--hairline);
+}
+.gal-loc{
+  font-family:'Clash Display','Cabinet Grotesk',sans-serif;
+  font-weight:600;
+  font-size:16px;
+  letter-spacing:-.02em;
+  color:var(--ink);
+}
+.gal-meta{
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:10.5px;
+  letter-spacing:.12em;
+  color:var(--ink-mute);
+  text-transform:uppercase;
+}
+
+/* ================================================================
+   BERITA & ARTIKEL — 3 news cards
+   ================================================================ */
+.news{
+  background:var(--paper);
+  padding:clamp(120px, 16vh, 180px) var(--gutter);
+  border-top:1px solid var(--hairline);
+  border-bottom:1px solid var(--hairline);
+}
+.news-head{
+  max-width:var(--container);
+  margin:0 auto 64px;
+  text-align:center;
+}
+.news-head .kicker{
+  display:inline-block;
+  margin-bottom:24px;
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--maroon);
+  padding:6px 14px;
+  border:1px solid var(--maroon);
+  border-radius:var(--r-pill);
+}
+.news-grid{
+  max-width:var(--container);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:28px;
+  perspective:1200px;
+}
+.news-card{
+  display:flex;
+  flex-direction:column;
+  background:var(--bone);
+  border:1px solid var(--hairline);
+  border-radius:var(--r-card);
+  overflow:hidden;
+  transition:
+    border-color .4s var(--ease-out-quick),
+    box-shadow .4s var(--ease-out-quick),
+    transform .4s var(--ease-out-quick);
+  will-change:transform;
+}
+.news-card:hover{
+  border-color:rgba(91,15,26,0.30);
+  box-shadow:0 18px 48px rgba(15,11,12,0.08);
+}
+.nc-img{
+  aspect-ratio:16/10;
+  overflow:hidden;
+  background:var(--bone-warm);
+}
+.nc-img img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform 1.2s var(--ease-out-quick);
+}
+.news-card:hover .nc-img img{transform:scale(1.05)}
+.nc-body{
+  padding:28px 28px 30px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  flex:1;
+}
+.nc-meta{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+.nc-cat{
+  color:var(--maroon);
+  padding:4px 10px;
+  border:1px solid var(--maroon);
+  border-radius:var(--r-pill);
+}
+.nc-date{color:var(--ink-mute)}
+.nc-h{
+  font-family:'Clash Display','Cabinet Grotesk',sans-serif;
+  font-weight:600;
+  font-size:22px;
+  line-height:1.18;
+  letter-spacing:-.025em;
+  color:var(--ink);
+}
+.nc-p{
+  font-size:14.5px;
+  line-height:1.55;
+  color:var(--ink-soft);
+  flex:1;
+}
+.nc-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:6px;
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:10.5px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--maroon);
+  transition:gap .35s var(--ease-out-quick);
+}
+.news-card:hover .nc-link{gap:14px}
+
+/* ================================================================
+   SERTIFIKASI — horizontal trust strip
+   ================================================================ */
+.certs{
+  background:var(--bone);
+  padding:48px var(--gutter) 56px;
+  border-bottom:1px solid var(--hairline);
+}
+.certs-inner{
+  max-width:var(--container);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-items:center;
+  gap:48px;
+}
+.certs-label{
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--ink-mute);
+  white-space:nowrap;
+}
+.certs-list{
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(5, 1fr);
+  gap:1px;
+  background:var(--hairline);
+  border-left:1px solid var(--hairline);
+}
+.cert{
+  background:var(--bone);
+  padding:14px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.cert-code{
+  font-family:'Clash Display','Cabinet Grotesk',sans-serif;
+  font-weight:600;
+  font-size:15px;
+  letter-spacing:-.015em;
+  color:var(--ink);
+}
+.cert-name{
+  font-family:'Geist Mono',ui-monospace,monospace;
+  font-size:9.5px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-mute);
+}
+
+/* ================================================================
+   MOTION — word reveal, animated nav underline, magnetic prep
+   ================================================================ */
+
+/* Word-by-word headline reveal — js-driven via .reveal-words */
+.reveal-words .word{
+  display:inline-block;
+  overflow:hidden;
+  vertical-align:top;
+}
+.reveal-words .word-inner{
+  display:inline-block;
+  transform:translate3d(0, 110%, 0);
+  transition:transform .9s var(--ease-out-soft);
+  will-change:transform;
+}
+.reveal-words.is-in .word-inner{transform:translate3d(0,0,0)}
+
+/* Stagger via inline --i index var */
+.reveal-words.is-in .word .word-inner{
+  transition-delay:calc(var(--i, 0) * 60ms);
+}
+
+/* Animated nav underlines */
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  left:14px;right:14px;
+  bottom:5px;
+  height:1.5px;
+  background:var(--maroon);
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .45s var(--ease-out-quick);
+  border-radius:1px;
+}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+/* Magnetic CTA prep (js drives translate) */
+.btn-magnetic{will-change:transform}
+
+/* ================================================================
    REVEAL
    ================================================================ */
 .reveal{
@@ -1824,6 +2275,60 @@ body.m-drawer-locked{overflow:hidden}
   .contact-r{gap:10px}
   .contact-tile{padding:22px}
   .contact-tile-primary .ct-v{font-size:24px}
+
+  /* SERVICES — vertical stack */
+  .services{padding:80px var(--gutter)}
+  .services-head{margin-bottom:40px}
+  .services-grid{grid-template-columns:1fr;gap:16px;perspective:none}
+  .service-card{padding:32px 24px 28px;transform:none !important}
+  .sc-icon{width:48px;height:48px;margin-bottom:24px;border-radius:10px}
+  .sc-icon svg{width:24px;height:24px}
+  .sc-h{font-size:24px}
+  .sc-p{font-size:14.5px;margin-bottom:22px}
+
+  /* PARTNERS marquee — adjust speed */
+  .partners{padding:36px 0}
+  .partners-label{font-size:10px;padding:0 var(--gutter)}
+  .marquee-track{gap:24px;animation-duration:36s}
+  .mq-item{font-size:18px}
+  .mq-dot{font-size:18px}
+
+  /* GALLERY — 2-col bento on tablet, 1-col on phone */
+  .gallery{padding:80px var(--gutter)}
+  .gallery-head{margin-bottom:40px}
+  .gallery-grid{grid-template-columns:1fr;gap:14px}
+  .gal-wide{grid-column:span 1}
+  .gal-wide .gal-frame{aspect-ratio:4/3}
+  .gal-item figcaption{padding:16px 18px 18px}
+  .gal-loc{font-size:15px}
+  .gal-meta{font-size:9.5px}
+
+  /* NEWS — vertical stack */
+  .news{padding:80px var(--gutter)}
+  .news-head{margin-bottom:36px}
+  .news-grid{grid-template-columns:1fr;gap:18px;perspective:none}
+  .news-card{transform:none !important}
+  .nc-body{padding:22px 22px 24px;gap:12px}
+  .nc-h{font-size:20px}
+  .nc-p{font-size:14px}
+
+  /* CERTIFIKASI — vertical stack on mobile */
+  .certs{padding:36px var(--gutter) 44px}
+  .certs-inner{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+  .certs-label{text-align:center;font-size:10px}
+  .certs-list{
+    grid-template-columns:1fr 1fr;
+    border-left:none;
+    border-top:1px solid var(--hairline);
+    border-right:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+  }
+  .cert{padding:12px 16px}
+  .cert-code{font-size:14px}
+  .cert-name{font-size:9px}
 
   /* FOOTER — accordion-style sections */
   .foot{padding:64px var(--gutter) 96px}

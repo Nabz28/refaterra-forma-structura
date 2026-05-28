@@ -209,7 +209,125 @@
     if (e.key === 'Escape') closeDrawer();
   });
 
-  // ---------- 8. MOBILE STICKY ACTION BAR ----------
+  // ---------- 8a. WORD-BY-WORD HEADLINE REVEAL ----------
+  // Splits headline text into word spans and reveals via stagger when in viewport.
+  // Reserve word-by-word reveal for brand storytelling heads only.
+  // Transactional sections (contract, accordion, fleet, map) keep simple fade-up.
+  const wordTargets = document.querySelectorAll('.statement-h, .services-head .section-h, .gallery-head .section-h');
+  wordTargets.forEach((el) => {
+    if (el.dataset.split === '1') return;
+    el.dataset.split = '1';
+    // Walk text nodes, preserve <span class="muted"> wrappers and <br>
+    const splitTextNode = (node, indexRef) => {
+      const text = node.textContent;
+      const frag = document.createDocumentFragment();
+      const parts = text.split(/(\s+)/);
+      for (const part of parts) {
+        if (/^\s+$/.test(part)) {
+          frag.appendChild(document.createTextNode(part));
+        } else if (part.length > 0) {
+          const wrap = document.createElement('span');
+          wrap.className = 'word';
+          const inner = document.createElement('span');
+          inner.className = 'word-inner';
+          inner.textContent = part;
+          inner.style.setProperty('--i', indexRef.i++);
+          wrap.appendChild(inner);
+          frag.appendChild(wrap);
+        }
+      }
+      return frag;
+    };
+    const indexRef = { i: 0 };
+    const walk = (parent) => {
+      const children = Array.from(parent.childNodes);
+      for (const child of children) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          if (child.textContent.trim().length > 0) {
+            parent.replaceChild(splitTextNode(child, indexRef), child);
+          }
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          if (child.tagName === 'BR') continue;
+          walk(child);
+        }
+      }
+    };
+    walk(el);
+    el.classList.add('reveal-words');
+  });
+
+  const wordIO = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        wordIO.unobserve(entry.target);
+      }
+    }
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+  wordTargets.forEach((el) => wordIO.observe(el));
+
+  // Safety pass for word-reveal targets already in viewport
+  setTimeout(() => {
+    wordTargets.forEach((el) => {
+      if (el.classList.contains('is-in')) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('is-in');
+      }
+    });
+  }, 140);
+
+  // ---------- 8b. MAGNETIC CTA ----------
+  // Hero primary only — keep navigation elements stable for repeat clicks.
+  const magnetTargets = document.querySelectorAll('.hero-ctas .btn-primary');
+  magnetTargets.forEach((el) => {
+    el.classList.add('btn-magnetic');
+    let raf = null;
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 6;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+    });
+    el.addEventListener('mouseleave', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform = 'translate3d(0, 0, 0)';
+      });
+    });
+  });
+
+  // ---------- 8c. 3D TILT on cards (data-tilt) ----------
+  const tiltTargets = document.querySelectorAll('[data-tilt]');
+  // Skip tilt on touch devices (too jittery, breaks tap)
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  if (!isTouch) {
+    tiltTargets.forEach((el) => {
+      let raf = null;
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rX = (y - 0.5) * -5;
+        const rY = (x - 0.5) * 5;
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          el.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) translateZ(0)`;
+        });
+      });
+      el.addEventListener('mouseleave', () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          el.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+        });
+      });
+    });
+  }
+
+  // ---------- 9. MOBILE STICKY ACTION BAR ----------
   // Show after user has scrolled past hero, hide near footer (avoid CTA overlap).
   const actionBar = document.getElementById('m-action');
   if (actionBar) {
