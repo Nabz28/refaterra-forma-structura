@@ -2071,78 +2071,88 @@ body.m-drawer-locked{overflow:hidden}
   .m-scrim{display:block}
   .m-action{display:flex}
 
-  /* HERO — vertical full-bleed, big headline, single CTA */
+  /* HERO — flex column, everything anchored to the bottom edge.
+     Headline sized so "Sewa Dump Truck" holds one line on a 360px phone;
+     the Tarif / Mobilisasi meta sits under the CTAs instead of floating
+     in-flow at the top of the section. */
   .hero{
     height:100svh;
-    min-height:640px;
-    max-height:880px;
+    min-height:600px;
+    max-height:820px;
     padding-top:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
   }
   .hero-media{top:0}
   .hero-scrim{
     background:
-      linear-gradient(180deg, rgba(15,11,12,0) 0%, rgba(15,11,12,0) 25%, rgba(15,11,12,0.55) 70%, rgba(15,11,12,0.92) 100%),
-      linear-gradient(90deg, rgba(15,11,12,0.40) 0%, rgba(15,11,12,0.15) 50%, rgba(15,11,12,0) 100%);
+      linear-gradient(180deg, rgba(15,11,12,0.10) 0%, rgba(15,11,12,0) 22%, rgba(15,11,12,0.60) 62%, rgba(15,11,12,0.94) 100%),
+      linear-gradient(90deg, rgba(15,11,12,0.35) 0%, rgba(15,11,12,0.10) 50%, rgba(15,11,12,0) 100%);
   }
   .hero-content{
-    padding:0 var(--gutter) 40px;
-    left:0;right:0;
+    position:relative;
+    padding:0 var(--gutter) 18px;
+    left:auto;right:auto;bottom:auto;
+    order:1;
   }
   .hero-h{
-    font-size:var(--t-1);
-    line-height:.93;
-    max-width:14ch;
-    margin-bottom:18px;
+    font-size:clamp(36px, 10vw, 56px);
+    line-height:.95;
+    letter-spacing:-.04em;
+    max-width:none;
+    margin-bottom:16px;
   }
   .hero-sub{
     font-size:15px;
-    line-height:1.45;
-    margin-bottom:24px;
+    line-height:1.5;
+    margin-bottom:22px;
     max-width:none;
+    color:rgba(255,255,255,0.84);
   }
   .hero-ctas{gap:10px;width:100%;flex-direction:column}
-  .hero-ctas .btn{width:100%;justify-content:center;padding:16px}
+  .hero-ctas .btn{width:100%;justify-content:center;padding:15px}
   .hero-meta{
     position:relative;
+    order:2;
     right:auto;bottom:auto;
-    margin:0 var(--gutter) 24px;
-    padding:14px 18px;
-    background:rgba(15,11,12,0.65);
-    border-radius:var(--r-card);
+    margin:0 var(--gutter) 28px;
+    padding:0;
+    background:transparent;
+    border:none;
+    border-top:1px solid rgba(255,255,255,0.16);
+    border-radius:0;
     min-width:0;
     flex-direction:row;
     gap:0;
   }
-  .hero-meta .hm-row{flex:1;flex-direction:column;align-items:flex-start;gap:4px}
-  .hero-meta .hm-row + .hm-row{border-left:1px solid rgba(255,255,255,0.18);padding-left:14px;margin-left:14px}
+  .hero-meta .hm-row{flex:1;flex-direction:column;align-items:flex-start;gap:5px;padding-top:14px}
+  .hero-meta .hm-row + .hm-row{border-left:1px solid rgba(255,255,255,0.16);padding-left:16px;margin-left:16px}
+  .hero-meta .hm-k{font-size:9px;letter-spacing:.2em}
+  .hero-meta .hm-v{font-size:15px}
 
-  /* SPEC STRIP — horizontal scroll carousel, native mobile pattern */
+  /* SPEC STRIP — 2-column grid; every number stays on screen,
+     last stat spans the full width as a closing line. */
   .strip{
     border-bottom:1px solid var(--hairline);
   }
   .strip-row{
-    display:flex;
-    flex-wrap:nowrap;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
     gap:0;
-    padding:32px 0;
-    overflow-x:auto;
-    scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
+    padding:8px var(--gutter) 0;
   }
-  .strip-row::-webkit-scrollbar{display:none}
   .strip-row::before{display:none}
   .strip-stat{
-    flex:0 0 64vw;
-    max-width:280px;
-    scroll-snap-align:start;
-    padding:0 24px;
-    border-left:1px solid var(--hairline);
+    gap:10px;
+    padding:22px 0 20px;
+    border-bottom:1px solid var(--hairline);
   }
-  .strip-stat:first-child{border-left:none;padding-left:var(--gutter)}
-  .strip-stat:last-child{padding-right:var(--gutter)}
-  .stat-n{font-size:56px;letter-spacing:-.04em}
-  .stat-l{font-size:10px}
+  .strip-stat:nth-child(even){padding-left:20px;border-left:1px solid var(--hairline)}
+  .strip-stat:nth-child(odd){padding-right:20px}
+  .strip-stat:last-child{grid-column:span 2;padding-right:0;border-bottom:none}
+  .stat-n{font-size:44px;letter-spacing:-.04em}
+  .stat-l{font-size:9.5px;letter-spacing:.18em}
 
   /* STATEMENT — single column, larger lead */
   .statement{padding:80px var(--gutter)}
@@ -2151,164 +2161,201 @@ body.m-drawer-locked{overflow:hidden}
   .statement-body{padding-top:0}
   .signature{margin-top:32px}
 
-  /* FLEET configurator — vertical, image first */
-  .fleet{padding:80px var(--gutter)}
-  .fleet-head{margin-bottom:48px}
-  .marque{gap:32px;grid-template-columns:1fr}
-  .marque-stage{aspect-ratio:5/4}
-  .marque-panel{padding:0}
-  /* Tabs become horizontal-scroll chip strip on mobile */
+  /* FLEET configurator — vertical, image first.
+     minmax(0,1fr) + min-width:0 stop the tab row's min-content from
+     blowing the grid out past the viewport. */
+  .fleet{padding:72px var(--gutter)}
+  .fleet-head{margin-bottom:36px}
+  .marque{gap:24px;grid-template-columns:minmax(0,1fr)}
+  .marque-stage{aspect-ratio:4/3}
+  .marque-img{padding:12px}
+  .marque-panel{padding:0;min-width:0}
+  /* Tabs become a 3-up segmented control */
   .marque-tabs{
-    margin-bottom:28px;
-    gap:8px;
-    display:flex;
-    overflow-x:auto;
-    scroll-snap-type:x proximity;
-    -webkit-overflow-scrolling:touch;
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:6px;
+    margin-bottom:24px;
     border-bottom:none;
-    padding-bottom:4px;
-    scrollbar-width:none;
+    padding:0;
   }
-  .marque-tabs::-webkit-scrollbar{display:none}
   .marque-tab{
-    flex:0 0 auto;
-    padding:14px 18px;
+    min-width:0;
+    padding:12px 10px 11px;
     border:1px solid var(--hairline-2);
-    border-radius:var(--r-pill);
-    border-bottom:1px solid var(--hairline-2);
+    border-radius:var(--r-card);
     opacity:1;
     background:transparent;
-    scroll-snap-align:start;
-    min-width:160px;
+    align-items:center;
+    text-align:center;
+    gap:4px;
   }
   .marque-tab.is-active{
     border-color:var(--maroon);
-    border-bottom-color:var(--maroon);
     background:var(--maroon-soft);
   }
   .marque-tab.is-active:hover{opacity:1}
-  .tab-name{font-size:17px}
-  .tab-model{font-size:10px}
-  .marque-blurb{font-size:16px;margin-bottom:28px}
+  .tab-name{font-size:16px}
+  .tab-model{
+    font-size:9px;
+    letter-spacing:.02em;
+    white-space:normal;
+    line-height:1.35;
+  }
+  .marque-blurb{font-size:15.5px;margin-bottom:22px;max-width:none}
   .spec-list{grid-template-columns:1fr}
   .spec-list > div:nth-child(odd){padding-right:0;border-right:none}
   .spec-list > div:nth-child(even){padding-left:0}
-  .spec-list > div{padding:14px 0}
+  .spec-list > div{padding:13px 0;gap:16px}
+  .spec-list dd{font-size:17px;text-align:right}
 
   /* OPS Day/Night — vertical, image then content */
   .ops{height:auto;min-height:0;display:flex;flex-direction:column}
-  .ops-stage{position:relative;height:48vh;min-height:320px;flex-shrink:0}
+  .ops-stage{position:relative;height:46vh;min-height:300px;max-height:420px;flex-shrink:0}
   .ops-overlay{
     background:linear-gradient(180deg, rgba(15,11,12,0) 0%, rgba(15,11,12,0.10) 60%, rgba(15,11,12,0.55) 100%);
   }
   .ops-content{
     position:relative;
     inset:auto;
-    padding:48px var(--gutter);
+    padding:44px var(--gutter) 52px;
     background:var(--ink);
     color:#fff;
   }
-  .ops-head{max-width:none;margin-bottom:32px}
+  .ops-head{max-width:none;margin-bottom:28px}
   .ops-toggle{
     width:100%;
     display:grid;
     grid-template-columns:1fr 1fr;
-    margin-bottom:28px;
+    margin-bottom:24px;
   }
   .ops-btn{justify-content:center}
-  .ops-stats{grid-template-columns:1fr 1fr;max-width:none}
+  .ops-stats{grid-template-columns:repeat(2, minmax(0,1fr));max-width:none}
+  .ops-stats > div{padding:18px 18px}
+  .os-v{font-size:21px}
 
-  /* MAP */
-  .map{padding:80px var(--gutter)}
-  .map-head{margin-bottom:36px}
+  /* MAP — the wide map image is an unreadable strip at phone width,
+     so show the three location cards instead. */
+  .map{padding:72px var(--gutter)}
+  .map-head{margin-bottom:32px}
   .map-wrap{padding:0;border:none;background:transparent}
+  .map-image{display:none}
+  .map-fallback{display:grid;grid-template-columns:1fr}
+  .mf-card{
+    min-height:0;
+    padding:20px 22px 18px;
+    gap:6px;
+    justify-content:flex-start;
+  }
+  .mf-kicker{margin-bottom:2px}
+  .mf-city{font-size:28px}
+  .mf-meta{font-size:10px}
 
   /* CAB */
-  .cab{padding:80px var(--gutter)}
-  .cab-grid{grid-template-columns:1fr;gap:32px}
+  .cab{padding:72px var(--gutter)}
+  .cab-grid{grid-template-columns:1fr;gap:28px}
   .cab-media{order:-1;border-radius:var(--r-card)}
-  .cab-list{margin-top:28px;padding-top:18px}
+  .cab-text{max-width:none}
+  .cab-list{margin-top:24px;padding-top:14px}
   .cab-list li{grid-template-columns:1fr;gap:4px;padding:12px 0}
 
   /* DETAILS */
   .details-inner{padding:80px var(--gutter);gap:48px}
 
   /* INCLUDED */
-  .included{padding:80px var(--gutter)}
-  .incl-head{margin-bottom:36px}
-  .incl-item summary{grid-template-columns:1fr 24px;gap:14px;padding:22px 0}
+  .included{padding:72px var(--gutter)}
+  .incl-head{margin-bottom:32px}
+  .incl-item summary{grid-template-columns:1fr 24px;gap:14px;padding:20px 0}
   .incl-item summary .ii-v{display:none}
+  .incl-item summary:hover .ii-k{transform:none}
   .ii-k{font-size:18px}
+  .incl-body{padding-bottom:22px}
 
-  /* CONTRACT — feature full + 6 cells in 2 cols */
-  .contract{padding:80px var(--gutter)}
-  .contract-head{margin-bottom:36px}
-  .contract-grid{grid-template-columns:1fr 1fr}
-  .contract-feature{grid-column:span 2;padding:32px 24px}
-  .cf-head{flex-direction:column;gap:12px}
-  .cf-big{font-size:56px}
-  .contract-cell{padding:24px 20px;min-height:148px}
-  .cc-v{font-size:32px}
-  .cc-v-mid{font-size:22px}
+  /* CONTRACT — feature full-width, then 2 columns of cells.
+     minmax(0,1fr) keeps long values (Rp 50.000.000) from widening the
+     grid past the viewport; the two long-value cells span both columns. */
+  .contract{padding:72px var(--gutter)}
+  .contract-head{margin-bottom:32px}
+  .contract-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .contract-feature{grid-column:span 2;padding:28px 22px 26px}
+  .cf-head{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:14px}
+  .cf-stamp{white-space:normal;line-height:1.4}
+  .cf-big{font-size:clamp(40px, 12.5vw, 52px)}
+  .cf-note{font-size:10px;line-height:1.6;margin-top:12px}
+  .contract-cell{padding:20px 18px 18px;min-height:0;gap:12px;justify-content:flex-start}
+  .contract-cell:nth-child(4),
+  .contract-cell:nth-child(7){grid-column:span 2}
+  .cc-k{font-size:9px}
+  .cc-v{font-size:30px}
+  .cc-v-mid{font-size:28px}
+  .cc-v-sm{font-size:19px}
+  .cc-v-sm br{display:none}
 
   /* OPERATOR */
-  .operator{padding:80px var(--gutter)}
-  .op-grid{grid-template-columns:1fr;gap:36px}
-  .op-media{aspect-ratio:1/1;max-width:280px;margin:0 auto}
-  .op-mark{font-size:80px}
-  .op-quote{font-size:24px;margin-bottom:24px}
+  .operator{padding:72px var(--gutter)}
+  .op-grid{grid-template-columns:1fr;gap:28px}
+  .op-media{aspect-ratio:4/5;max-width:none;margin:0}
+  .op-mark{font-size:72px;line-height:.5}
+  .op-quote{font-size:23px;margin-bottom:20px;max-width:none}
 
   /* BAY */
   .bay{height:auto;min-height:0;display:flex;flex-direction:column}
-  .bay-media{position:relative;height:42vh;min-height:280px;flex-shrink:0}
+  .bay-media{position:relative;height:42vh;min-height:260px;max-height:400px;flex-shrink:0}
   .bay-text{
     position:relative;
-    padding:48px var(--gutter);
+    padding:40px var(--gutter) 52px;
     background:var(--ink);
     inset:auto;
   }
 
   /* CONTACT */
-  .contact{padding:80px var(--gutter);min-height:0}
-  .contact-inner{grid-template-columns:1fr;gap:36px}
+  .contact{padding:72px var(--gutter) 80px;min-height:0}
+  .contact-inner{grid-template-columns:1fr;gap:32px}
   .contact-h{font-size:var(--t-2)}
+  .contact-sub{font-size:16px}
   .contact-r{gap:10px}
-  .contact-tile{padding:22px}
+  .contact-tile{padding:20px 20px 18px}
+  .ct-k{margin-bottom:8px}
+  .ct-v{font-size:20px;margin-bottom:8px;overflow-wrap:anywhere}
   .contact-tile-primary .ct-v{font-size:24px}
+  .ct-foot{font-size:12.5px}
 
   /* SERVICES — vertical stack */
-  .services{padding:80px var(--gutter)}
-  .services-head{margin-bottom:40px}
-  .services-grid{grid-template-columns:1fr;gap:16px;perspective:none}
-  .service-card{padding:32px 24px 28px;transform:none !important}
-  .sc-icon{width:48px;height:48px;margin-bottom:24px;border-radius:10px}
-  .sc-icon svg{width:24px;height:24px}
-  .sc-h{font-size:24px}
-  .sc-p{font-size:14.5px;margin-bottom:22px}
+  .services{padding:72px var(--gutter)}
+  .services-head{margin-bottom:32px}
+  .services-grid{grid-template-columns:1fr;gap:12px;perspective:none}
+  .service-card{padding:26px 22px 24px;transform:none !important}
+  .sc-icon{width:44px;height:44px;margin-bottom:20px;border-radius:10px}
+  .sc-icon svg{width:22px;height:22px}
+  .sc-h{font-size:22px;margin-bottom:10px}
+  .sc-p{font-size:14.5px;margin-bottom:18px;max-width:none}
 
-  /* PARTNERS marquee — adjust speed */
-  .partners{padding:36px 0}
-  .partners-label{font-size:10px;padding:0 var(--gutter)}
-  .marquee-track{gap:24px;animation-duration:36s}
-  .mq-item{font-size:18px}
-  .mq-dot{font-size:18px}
+  /* PARTNERS marquee — narrow edge fades so the label stays legible */
+  .partners{padding:32px 0}
+  .partners::before,.partners::after{width:40px}
+  .partners-label{font-size:9.5px;letter-spacing:.2em;padding:0 var(--gutter);position:relative;z-index:3;line-height:1.7}
+  .marquee-track{gap:20px;animation-duration:36s}
+  .mq-item{font-size:17px}
+  .mq-dot{font-size:17px}
 
-  /* GALLERY — 2-col bento on tablet, 1-col on phone */
-  .gallery{padding:80px var(--gutter)}
-  .gallery-head{margin-bottom:40px}
-  .gallery-grid{grid-template-columns:1fr;gap:14px}
+  /* GALLERY — single column, 3:2 frames keep the scroll short */
+  .gallery{padding:72px var(--gutter)}
+  .gallery-head{margin-bottom:32px}
+  .gallery-grid{grid-template-columns:1fr;gap:12px}
   .gal-wide{grid-column:span 1}
-  .gal-wide .gal-frame{aspect-ratio:4/3}
-  .gal-item figcaption{padding:16px 18px 18px}
+  .gal-frame,.gal-wide .gal-frame{aspect-ratio:3/2}
+  .gal-item figcaption{padding:14px 16px 16px}
   .gal-loc{font-size:15px}
   .gal-meta{font-size:9.5px}
 
   /* NEWS — vertical stack */
-  .news{padding:80px var(--gutter)}
-  .news-head{margin-bottom:36px}
-  .news-grid{grid-template-columns:1fr;gap:18px;perspective:none}
+  .news{padding:72px var(--gutter)}
+  .news-head{margin-bottom:32px}
+  .news-grid{grid-template-columns:1fr;gap:14px;perspective:none}
   .news-card{transform:none !important}
-  .nc-body{padding:22px 22px 24px;gap:12px}
+  .nc-img{aspect-ratio:16/9}
+  .nc-body{padding:20px 20px 22px;gap:10px}
+  .nc-meta{flex-wrap:wrap;gap:8px 12px}
   .nc-h{font-size:20px}
   .nc-p{font-size:14px}
 
@@ -2327,23 +2374,25 @@ body.m-drawer-locked{overflow:hidden}
     border-bottom:1px solid var(--hairline);
   }
   .cert{padding:12px 16px}
+  .cert:last-child{grid-column:span 2}
   .cert-code{font-size:14px}
   .cert-name{font-size:9px}
 
-  /* FOOTER — accordion-style sections */
-  .foot{padding:64px var(--gutter) 96px}
+  /* FOOTER — brand row, then link columns two-up */
+  .foot{padding:56px var(--gutter) 96px}
   .foot-grid{
-    grid-template-columns:1fr;
-    gap:28px;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:32px 20px;
   }
   .foot-brand{
-    grid-column:span 1;
-    padding-bottom:16px;
+    grid-column:span 2;
+    padding-bottom:20px;
     border-bottom:1px solid var(--hairline);
+    max-width:none;
   }
-  .foot-col{gap:8px}
-  .fc-h{margin-bottom:8px}
-  .foot-col a{font-size:14px;padding:6px 0}
+  .foot-col{gap:4px}
+  .fc-h{margin-bottom:6px}
+  .foot-col a{font-size:14px;padding:5px 0;overflow-wrap:anywhere}
   .foot-base{
     flex-direction:column;
     align-items:flex-start;
@@ -2359,13 +2408,23 @@ body.m-drawer-locked{overflow:hidden}
    ================================================================ */
 @media (max-width: 480px){
   :root{--gutter:18px}
-  .hero-h{font-size:46px;letter-spacing:-.04em}
-  .hero-sub{font-size:14px}
-  .stat-n{font-size:48px}
-  .strip-stat{flex:0 0 70vw;max-width:240px}
-  .cf-big{font-size:48px}
-  .cc-v{font-size:28px}
+  .hero-sub{font-size:14.5px}
+  .stat-n{font-size:40px}
   .op-quote{font-size:22px}
   .ma-primary{font-size:13px;padding:13px 14px}
   .ma-call{width:44px;height:44px}
+  .section-sub{font-size:16px}
+}
+
+/* ================================================================
+   NARROW PHONE (≤360px) — Galaxy A-series, older iPhones
+   ================================================================ */
+@media (max-width: 360px){
+  :root{--gutter:16px}
+  .tab-name{font-size:14px}
+  .tab-model{font-size:8px}
+  .cc-v{font-size:26px}
+  .cf-big{font-size:38px}
+  .contact-tile-primary .ct-v{font-size:21px}
+  .certs-list{grid-template-columns:1fr}
 }
